@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>cydeo-cucumber-junit</artifactId>
+    <artifactId>mtsk</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -72,6 +72,9 @@
             <scope>test</scope>
         </dependency>
 
+
+
+
         <dependency>
             <groupId>me.jvt.cucumber</groupId>
             <artifactId>reporting-plugin</artifactId>
@@ -79,11 +82,11 @@
         </dependency>
 
         <!--If you want to get rid of SLF4J Failed to load message from the console -->
-        <dependency>
+       <!--  <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
-        </dependency>
+        </dependency> -->
 
     </dependencies>
 

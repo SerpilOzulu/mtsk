@@ -1,16 +1,16 @@
-
-Feature: MeetSky App Login Feature
+  @MTSK-349
+Feature:MeetSky App Login Feature
   User Story :  As a user, I should be able to login.
-  @loginMeetsky
-Scenario Outline:  User can login with valid credentials
+  @MTSK-349
+Scenario Outline:User can login with valid credentialsGiven user is on login page
     Given user is on login page
-  When User enters username "<valid username>"
-  And User enters password "<valid password>"
+  When User enters username "<valid_username>"
+  And User enters password "<valid_password>"
   And User clicks login button
   Then user should see homepage
-    @loginMeetsky
-  Examples: valid credentials
-    | valid username | valid password |
+
+  Examples:valid credentials
+    | valid_username | valid_password |
     | Employee11     | Employee123    |
     | Employee21     | Employee123    |
     | Employee31     | Employee123    |
@@ -26,22 +26,23 @@ Scenario Outline:  User can login with valid credentials
     | Employee131    | Employee123    |
 
 
-  Scenario Outline: User cannot login with invalid username
+  @MTSK-349 @negative
+  Scenario Outline:User cannot login with invalid username
     Given user is on login page
-    When User enters invalid username "<invalid username>"
-    And User enters valid password "<valid password>"
+    When User enters invalid username "<invalid_username>"
+    And User enters valid password "<valid_password>"
     And User clicks login button
     Then user should not see homepage and should be still on login page
-  Then user should see "notice message" as "Wrong username or password. "
+    Then user should see "notice message" as "Wrong username or password."
     Examples: invalid username
-      | invalid username     | valid password |
+      | invalid_username     | valid_password |
       | E                    | Employee123    |
       | Employee21123456     | Employee123    |
       | Employee31flgmb48854 | Employee123    |
       | Employe              | Employee123    |
       | Employ  ee5          | Employee123    |
       | Employee61           | Employee123    |
-      | Employeee71           | Employee123    |
+      | Employeee71           |Employee123    |
       | ployee81             | Employee123    |
       | 1                    | Employee123    |
       | ,                    | Employee123    |
@@ -52,15 +53,15 @@ Scenario Outline:  User can login with valid credentials
 
 
 
-  Scenario Outline: User cannot login with invalid password
+  Scenario Outline:User cannot login with invalid password
     Given user is on login page
-    When User enters valid username"<valid username>"
-    And User enters invalid password "<invalid password>"
+    When User enters valid username"<valid_username>"
+    And User enters invalid password "<invalid_password>"
     And User clicks login button
     Then user should not see homepage and should be still on login page
-  Then user should see "notice message" as "Wrong username or password. "
+    Then user should see "notice message" as "Wrong username or password. "
     Examples: invalid password
-      | valid username | invalid password |
+      | valid_username | invalid_password |
       | Employee11     | Employee1234     |
       | Employee21     | Employee12       |
       | Employee31     | Employee1        |
@@ -78,13 +79,13 @@ Scenario Outline:  User can login with valid credentials
 
   Scenario Outline: User cannot login with invalid username and password
     Given user is on login page
-    When User enters invalid username "<invalid username>"
-    And User enters invalid password "<invalid password>"
+    When User enters invalid username "<invalid_username>"
+    And User enters invalid password "<invalid_password>"
     And User clicks login button
     Then user should not see homepage and should be still on login page
-  Then user should see "notice message" as "Wrong username or password. "
+    Then user should see "notice message" as "Wrong username or password. "
     Examples: invalid credentials
-      | invalid username      | invalid password |
+      | invalid_username      | invalid_password |
       | Employ                | Employee1234     |
       | E                     | Employee12       |
       | Emplo/1               | Employee1        |
@@ -102,32 +103,60 @@ Scenario Outline:  User can login with valid credentials
 
   Scenario Outline: User cannot login with empty username and password
     Given user is on login page
-    When User enters empty username "<empty username>"
+    When User enters empty username "<empty_username>"
     And User enters valid and invalid password "<password>"
     And User clicks login button
     Then user should not see homepage and should be still on login page
-  Then user should see "notice message" as "Please fill out this field"
+    Then user should see "notice message" as "Please fill out this field"
     Examples: invalid credentials
-      | empty username | password    |
+      | empty_username | password    |
       |                | Employee123 |
       |                | empl        |
 
 
 
-  Scenario Outline: User cannot login with  username and empty password
+  Scenario : User cannot login with credentials  which has more than 15 characters
     Given user is on login page
-    When User enters valid and invalid username "<username>"
-    And User enters empty password "<empty password>"
+    When User enters a username "LongUsername" that is more than 15 characters
+      |eMPLOYEEeMPLOYEE31 |
+    And User enters  a password "LongPassword"
+      |Employee123Employee123 |
     And User clicks login button
     Then user should not see homepage and should be still on login page
-  Then user should see "notice message" as "Please fill out this field"
-    Examples: invalid credentials
-      | username   | empty password |
-      | Employee31 |                |
-      | ploy       |                |
+    Then user should see "notice message" as "It is not allowed to write more than 15 charachters"
 
 
-  Scenario: User can see the password in a form of dots by default
+  Scenario:User cannot login with credentials  which has less than 2 characters
+    Given user is on login page
+    When User enters a username "ShortUsername" that is more than 15 characters
+      | e |
+      | 1 |
+      | * |
+      | = |
+    And User enters  a password "ShortPassword" that is more than 15 characters
+      | E |
+      | ! |
+      | e |
+      | @ |
+    And User clicks login button
+    Then user should not see homepage and should be still on login page
+    Then user should see "notice message" as "It is not allowed to write more than 15 charachters"
+
+
+
+
+  Scenario:User cannot login with  username and empty password
+    Given user is on login page
+    When User enters valid and invalid username "username"
+    |Employee31|
+    |ploy      |
+    And User enters empty password " "
+    And User clicks login button
+    Then user should not see homepage and should be still on login page
+    Then user should see "notice message" as "Please fill out this field"
+
+
+  Scenario:User can see the password in a form of dots by default
     Given user is on login page
     When User enters password "password"
       | Employee123 |
@@ -136,34 +165,31 @@ Scenario Outline:  User can login with valid credentials
       | 12345       |
     Then user should see the password in a form of dots by default
 
-Scenario: User can see the password explicitly if needed
-  Given user is on login page
-  When User enters valid and invalid password "password"
-    | Employee123 |
-    | 12345       |
-    | *           |
-    | \?          |
-    | ...         |
-    | ABCD        |
-  And user clicks eye sign on the password box
-  Then user should see the password as written
-
-
-  Scenario: User should see the "Forgot password?" link on the login page and can see the
- "Reset Password" button on the next page after clicking on forget password link
+  Scenario:User can see the password explicitly if needed
     Given user is on login page
-  When user should see forgot password? link on the login page
-   And User clicks on  forgot password? link
+    When User enters valid and invalid password "password"
+      | Employee123 |
+      | 12345       |
+      | *           |
+      | \?          |
+      | ...         |
+      | ABCD        |
+    And user clicks eye sign on the password box
+    Then user should see the password as written
+
+
+  Scenario:User should see the "Forgot password?" link on the login page and can see the
+  "Reset Password" button on the next page after clicking on forget password link
+    Given user is on login page
+    When user should see forgot password? link on the login page
+    And User clicks on  forgot password? link
     Then user should see  Reset Password button on the next page
 
 
-  Scenario: User should see valid placeholders on Username and Password fields
+  Scenario:User should see valid placeholders on Username and Password fields
     Given user is on login page
     Then user should see valid placeholder in username box "username or email"
     Then user should see valid placeholder in password box as "Password"
-
-
-
 
 
 
