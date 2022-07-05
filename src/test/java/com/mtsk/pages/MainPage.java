@@ -16,7 +16,9 @@ public class MainPage {
     public WebElement LogoutButton;
 
 
-    @FindBy(xpath = "//span[@class='user-status-menu-item__header']")
+
+
+    @FindBy(xpath = "//div[@class='avatardiv avatardiv-shown']")
     public WebElement profileMenu;
 
 }

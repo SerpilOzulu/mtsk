@@ -36,6 +36,26 @@ public class BrowserUtils {
     }
 
 
+    public static WebElement waitForVisibility(By locator, int timeout) {
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+
+
+    public static void waitForPageToLoad(long timeOutInSeconds) {
+        ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+            }
+        };
+        try {
+            WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeOutInSeconds);
+            wait.until(expectation);
+        } catch (Throwable error) {
+            error.printStackTrace();
+        }
+    }
 
 
 

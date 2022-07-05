@@ -2,6 +2,7 @@ package com.mtsk.runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import org.apache.hc.client5.http.impl.TunnelRefusedException;
 import org.junit.runner.RunWith;
 
 
@@ -17,8 +18,8 @@ import org.junit.runner.RunWith;
 
         features = "src/test/resources/features",
         glue = "com/mtsk/stepDefinitions",
-        dryRun = true,
-        tags = " @MTSK-349"
+        dryRun = false,
+        tags = "@login7"
 
 )
 public class CukesRunner {

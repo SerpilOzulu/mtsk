@@ -1,6 +1,7 @@
 package com.mtsk.stepDefinitions;
 
 import com.mtsk.pages.LoginPage;
+import com.mtsk.utilities.BrowserUtils;
 import com.mtsk.utilities.ConfigurationReader;
 import com.mtsk.utilities.Driver;
 import io.cucumber.java.en.And;
@@ -53,12 +54,12 @@ LoginPage loginPage = new LoginPage();
     @Then("user should not see homepage and should be still on login page")
     public void user_should_not_see_homepage_and_should_be_still_on_login_page() {
       String actualText= Driver.getDriver().getTitle();
-      String expectedText="";   //loginpage text
+      String expectedText="Meetsky - QA";   //loginpage text
         Assert.assertEquals(expectedText,actualText);
     }
     @Then("user should see notice message as {string}")
     public void user_should_see_notice_message_as(String string) {
-        String noticeMessage="Wrong username or password.";
+        String noticeMessage=Driver.getDriver().findElement(By.xpath("//p[@class='warning wrongPasswordMsg']")).getText();
         Assert.assertEquals(string, noticeMessage);
 
 
@@ -99,11 +100,9 @@ LoginPage loginPage = new LoginPage();
 
     @Then("user should see  notice2 message as {string}")
     public void userShouldSeeNotice2MessageAs(String arg01) {
-        String actualNotice2Message= Driver.getDriver().findElement(By.xpath("//p[@class='warning wrongPasswordMsg']")).getText();
-        //  CHANGE the  locator of  "please fill out message"
+        String actualNotice2Message= loginPage.usernameBox.getAttribute("validationMessage");
         Assert.assertEquals(arg01,actualNotice2Message);
     }
-
 
     @When("User enters a username {string} that is more than fifteen characters")
     public void userEntersAUsernameThatIsMoreThanFifteenCharacters(String arg0) {
@@ -117,11 +116,10 @@ LoginPage loginPage = new LoginPage();
 
     @Then("user should see notice3 message  as {string}")
     public void userShouldSeeNotice3MessageAs(String arg1) {
-        String actualNotice3Message="";
+        String actualNotice3Message=Driver.getDriver().findElement(By.xpath("//p[@class='warning wrongPasswordMsg']")).getText();
         Assert.assertEquals(arg1,actualNotice3Message);
 
     }
-
 
 
 
@@ -136,8 +134,11 @@ LoginPage loginPage = new LoginPage();
     }
     @Then("user should see notice4 message as {string}")
     public void user_should_see_notice4_message_as(String string) {
-        String actualNotice4Message="";
+        BrowserUtils.waitForPageToLoad(20);
+       String actualNotice4Message=Driver.getDriver().findElement(By.xpath("//p[@class='warning wrongPasswordMsg']")).getText();
+        BrowserUtils.waitForPageToLoad(20);
         Assert.assertEquals(string,actualNotice4Message);
+
 
     }
 
@@ -152,7 +153,7 @@ LoginPage loginPage = new LoginPage();
     }
     @Then("user should see notice5 message as {string}")
     public void user_should_see_notice5_message_as(String string) {
-      String actualNotice5Message="";
+      String actualNotice5Message=  loginPage.passwordBox.getAttribute("validationMessage");
       Assert.assertEquals(string,actualNotice5Message);
     }
 
@@ -165,32 +166,30 @@ LoginPage loginPage = new LoginPage();
 
 
     @Then("user should see the password in a form of dots by default")
-    public void user_should_see_the_password_in_a_form_of_dots_by_default() {
-       // loginPage.passwordBox.getAttribute("type");
-        //Assert.assertTrue(loginPage.passwordBox.getAttribute("type").equals(""));
-     // ex:  Assert.assertTrue(meetSkyLoginPage.passwordInput.getAttribute("type").equals("password"));
+    public void userShouldSeeThePasswordInAFormOfDotsByDefault() {
+        Assert.assertEquals("password", loginPage.passwordBox.getAttribute("type"));
+
 
     }
-
 
 
     @When("user clicks eye sign on the password box")
     public void user_clicks_eye_sign_on_the_password_box() {
       loginPage.eyeSign.click();
     }
-    @Then("user should see the password as written")
-    public void user_should_see_the_password_as_written() {
-     String actualSeenPassword=  loginPage.passwordBox.getText();
-   /*
-tamamla
-    */
+    @Then("user should see the password as written in a form of text")
+    public void userShouldSeeThePasswordAsWrittenInAFormOfText() {
+
+     String actualSeenPassword=  loginPage.passwordBox.getAttribute("type");
+     Assert.assertEquals("text",actualSeenPassword);
+
 
     }
 
 
     @When("user should see forgot password? link on the login page")
     public void userShouldSeeForgotPasswordLinkOnTheLoginPage() {
-     Assert.assertTrue( Driver.getDriver().findElement(By.xpath("")).isDisplayed()  );
+     Assert.assertTrue( Driver.getDriver().findElement(By.xpath("//a[@id='lost-password']")).isDisplayed()  );
 
     }
 
@@ -201,7 +200,7 @@ tamamla
 
     @Then("user should see  Reset Password button on the next page")
     public void userShouldSeeResetPasswordButtonOnTheNextPage() {
-        Assert.assertTrue(Driver.getDriver().findElement(By.id("reset-password-submit")).isDisplayed());
+        Assert.assertTrue(Driver.getDriver().findElement(By.xpath("//input[@id='reset-password-submit']")).isDisplayed());
 
     }
 
@@ -216,6 +215,9 @@ tamamla
     public void userShouldSeeValidPlaceholderInPasswordBoxAs(String placeHolderPassword) {
         Assert.assertEquals(placeHolderPassword, loginPage.passwordBox.getAttribute("placeholder"));
     }
+
+
+
 }
 
 
