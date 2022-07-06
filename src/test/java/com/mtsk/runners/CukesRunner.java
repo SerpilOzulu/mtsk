@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/mtsk/stepDefinitions",
         dryRun = false,
-        tags = "@login7"
+        tags = "@MTSK-432"
 
 )
 public class CukesRunner {

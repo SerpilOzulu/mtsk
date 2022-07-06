@@ -1,8 +1,8 @@
 @MTSK-349
 Feature:MeetSky App Login Feature
   User Story :  As a user, I should be able to login.
-   @login1 @positive
-Scenario Outline:User can login with valid credentialsGiven user is on login page
+   @login1 @positive   @MTSK-430
+Scenario Outline:User can login with valid credentials
     Given user is on login page
   When User enters username "<valid_username>"
   And User enters password "<valid_password>"
@@ -24,7 +24,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
     | Employee131    | Employee123    |
 
 
- @login2  @negative
+ @login2  @negative  @MTSK-432
   Scenario Outline:User cannot login with invalid username
     Given user is on login page
     When User enters invalid username "<invalid_username>"
@@ -33,24 +33,17 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
     Then user should not see homepage and should be still on login page
     Then user should see notice message as "Wrong username or password."
     Examples: invalid username
-      | invalid_username     | valid_password |
-      | E                    | Employee123    |
-      | Employee21123456     | Employee123    |
-      | Employee31flgmb48854 | Employee123    |
-      | Employe              | Employee123    |
-      | Employ  ee5          | Employee123    |
-      | Employee613           | Employee123    |
-      | Employeee711           |Employee123    |
-      | ployee81             | Employee123    |
-      | 1                    | Employee123    |
-      | ,                    | Employee123    |
-      | Employee1111          | Employee123    |
-      | .1                   | Employee123    |
-      | 22                   | Employee123    |
+      | invalid_username | valid_password |
+      | E                | Employee123    |
+      | Employee21123456 | Employee123    |
+      | ployee81         | Employee123    |
+      | Employee1111     | Employee123    |
+      | .1               | Employee123    |
 
 
 
- @login3 @negative
+
+ @login3 @negative @MTSK-433
   Scenario Outline:User cannot login with invalid password
     Given user is on login page
     When User enters valid username "<valid_username>"
@@ -65,16 +58,9 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       | Employee31     | Employee1        |
       | Employee41     | Employee         |
       | Employee51     | E                |
-      | Employee61     | Empl             |
-      | Employee71     | E                |
-      | Employee81     | Employee12312312 |
-      | Employee91     | Employee12332    |
-      | Employee121    | oyee123          |
-      | Employee111    | ee123            |
-      | Employee121    | ?                |
-      | Employee131    | Empl..123        |
 
-       @login4  @negative
+
+       @login4  @negative @MTSK-434
   Scenario Outline: User cannot login with invalid username and password
     Given user is on login page
     When User enters invalid username "<invalid_username>"
@@ -89,16 +75,9 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       | Emplo/1               | Employee1        |
       | Employee414           | Employee         |
       | Employee515           | E                |
-      | Employee615           | Empl             |
-      | Employee71 7          | E!!              |
-      | Emp                   |oyee123           |
-      | Empl???????????oyee91 | Empee123         |
-      | Employeeee101         | oyee123          |
-      | Employe.fkge111       | ee123            |
-      | Employfortğtğee121    | ?                |
-      | Emefnfmmployee131     | Empl..123        |
 
-@negative @login5
+
+@negative @login5  @MTSK-435
   Scenario Outline: User cannot login with empty username and password
     Given user is on login page
     When User enters empty username "<empty_username>"
@@ -112,7 +91,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       |                | empl        |
 
 
-   @negative  @login6
+   @negative  @login6 @MTSK-436
   Scenario Outline: User cannot login with credentials  which has more than 15 characters
     Given user is on login page
     When User enters a username "<LongUsername>" that is more than fifteen characters
@@ -125,7 +104,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
        | eMPLOYEEeMPLOYEE31      | Employee123Employee123 |
        | Employee123Employee1563 | eMPLOYEEeMPLOYEE41     |
 
-  @negative  @login7
+  @negative  @login7  @MTSK-437
   Scenario Outline:User cannot login with credentials  which has less than two characters
     Given user is on login page
     When User enters a username "<ShortUsername>" that is less than two characters
@@ -139,7 +118,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
     | 1             | 2             |
     | *             | 4             |
 
-  @login8 @negative
+  @login8 @negative   @MTSK-438
   Scenario Outline:User cannot login with  username and empty password
     Given user is on login page
     When User enters valid and invalid username "<username>"
@@ -153,7 +132,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       | p          |                |
 
 
-  @login9
+  @login9  @MTSK-439
   Scenario Outline:User can see the password in a form of dots by default
     Given user is on login page
     When User enters  valid and invalid password "<password>"
@@ -164,7 +143,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       | emp         |
 
 
-  @login10
+  @login10  @MTSK-440
   Scenario Outline:User can see the password explicitly if needed
     Given user is on login page
     When User enters valid and invalid password "<password>"
@@ -175,7 +154,6 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
       | Employee123 |
       | 12345       |
       | *           |
-      | \?          |
       | ...         |
       | ABCD        |
 
@@ -184,20 +162,7 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  @login11
+  @login11  @MTSK-441
   Scenario:User should see the "Forgot password?" link on the login page and can see the
   "Reset Password" button on the next page after clicking on forget password link
     Given user is on login page
@@ -205,10 +170,10 @@ Scenario Outline:User can login with valid credentialsGiven user is on login pag
     And User clicks on  forgot password? link
     Then user should see  Reset Password button on the next page
 
-@login12
+@login12 @MTSK-442
   Scenario:User should see valid placeholders on Username and Password fields
     Given user is on login page
-    Then user should see valid placeholder in username box "username or email"
+    Then user should see valid placeholder in username box "Username or email"
     Then user should see valid placeholder in password box as "Password"
 
 
